@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : SingletonBehaviour<GameController>
 {
     [SerializeField] private PlayerBall playerBall;
+    [SerializeField, Range(0F, 90F), Tooltip("射出する角度")] private float throwAngle;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,7 @@ public class GameController : SingletonBehaviour<GameController>
         if (Input.GetMouseButtonDown(0))
         {
             playerBall.followPlayerCamera();
-            playerBall.ThrowBall(new Vector3(0,0,10));
+            playerBall.ThrowBall(new Vector3(0,0,10), throwAngle);
         }
     }
 }

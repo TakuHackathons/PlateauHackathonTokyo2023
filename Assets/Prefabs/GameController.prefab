@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dontDestroyOnLoad: 0
   playerBall: {fileID: 0}
+  throwAngle: 45
