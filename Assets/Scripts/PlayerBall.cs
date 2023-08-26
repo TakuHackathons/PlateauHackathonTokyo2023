@@ -5,10 +5,17 @@ public class PlayerBall : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Rigidbody playerBallRigid;
     private Camera mainCamera;
+    private Vector3 defaultPlayerCameraPosition;
 
     private void Awake()
     {
         mainCamera = Camera.main;
+        defaultPlayerCameraPosition = playerCamera.transform.localPosition;
+    }
+
+    private void Update()
+    {
+        playerCamera.transform.position = playerBallRigid.transform.position + defaultPlayerCameraPosition;
     }
 
     public void followPlayerCamera()
