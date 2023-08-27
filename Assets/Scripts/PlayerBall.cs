@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Xml;
+using UnityEngine;
 
 public class PlayerBall : MonoBehaviour
 {
@@ -44,9 +45,11 @@ public class PlayerBall : MonoBehaviour
         playerBallRigid.AddForce(velocity * playerBallRigid.mass, ForceMode.Impulse);
 
         playerBallRigid.transform.rotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
-        if(playerCamera.gameObject.activeSelf)
+        if (playerCamera.gameObject.activeSelf)
         {
-            playerCamera.transform.RotateAround(playerBallRigid.transform.position, Vector3.up, Vector3.Angle(new Vector3(velocity.x, 0, velocity.z), transform.forward));
+            Vector3 prevCameraOffset = playerCamera.transform.position - playerBallRigid.transform.position;
+            playerCamera.transform.RotateAround(playerBallRigid.transform.position, Vector3.up, -Vector3.Angle(prevCameraOffset, playerBallRigid.transform.forward));
+            playerCamera.transform.LookAt(playerBallRigid.transform);
             playerCameraOffset = playerCamera.transform.position - playerBallRigid.transform.position;
         }
     }
