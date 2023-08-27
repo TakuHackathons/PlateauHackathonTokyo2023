@@ -38,7 +38,7 @@ public class PlayerBall : MonoBehaviour
     public void ThrowBall(Vector3 targetPosition,float angle = 45)
     {
         // 射出速度を算出
-        Vector3 velocity = CalculateVelocity(this.transform.position, targetPosition, angle);
+        Vector3 velocity = CalculateVelocity(playerBallRigid.transform.position, targetPosition, angle);
 
         // 射出
         playerBallRigid.AddForce(velocity * playerBallRigid.mass, ForceMode.Impulse);
