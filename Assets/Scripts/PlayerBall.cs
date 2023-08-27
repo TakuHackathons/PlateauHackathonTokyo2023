@@ -5,17 +5,17 @@ public class PlayerBall : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Rigidbody playerBallRigid;
     private Camera mainCamera;
-    private Vector3 defaultPlayerCameraPosition;
+    private Vector3 playerCameraOffset;
 
     private void Awake()
     {
         mainCamera = Camera.main;
-        defaultPlayerCameraPosition = playerCamera.transform.localPosition;
+        playerCameraOffset = playerCamera.transform.position - playerBallRigid.transform.position;
     }
 
     private void Update()
     {
-        playerCamera.transform.position = playerBallRigid.transform.position + defaultPlayerCameraPosition;
+        playerCamera.transform.position = playerBallRigid.transform.position + playerCameraOffset;
     }
 
     public void followPlayerCamera()
@@ -42,6 +42,13 @@ public class PlayerBall : MonoBehaviour
 
         // 射出
         playerBallRigid.AddForce(velocity * playerBallRigid.mass, ForceMode.Impulse);
+
+        playerBallRigid.transform.rotation = Quaternion.LookRotation(new Vector3(velocity.x, 0, velocity.z));
+        if(playerCamera.gameObject.activeSelf)
+        {
+            playerCamera.transform.RotateAround(playerBallRigid.transform.position, Vector3.up, Vector3.Angle(new Vector3(velocity.x, 0, velocity.z), transform.forward));
+            playerCameraOffset = playerCamera.transform.position - playerBallRigid.transform.position;
+        }
     }
 
     /// 標的に命中する射出速度の計算
